@@ -18,7 +18,9 @@ export interface UseHandPoseResult {
   landmarksRef: React.MutableRefObject<Keypoint[] | null>;
 }
 
-export function useHandPose({ enabled }: UseHandPoseOptions): UseHandPoseResult {
+export function useHandPose({
+  enabled,
+}: UseHandPoseOptions): UseHandPoseResult {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const detectorRef = useRef<HandDetector | null>(null);
@@ -144,6 +146,11 @@ export function useHandPose({ enabled }: UseHandPoseOptions): UseHandPoseResult 
 
       const hand = hands[0];
       landmarksRef.current = hand?.keypoints ?? null;
+
+      console.log("[hand-pose] hands detected:", hands.length);
+      if (hand) {
+        console.log("[hand-pose]:", hand);
+      }
 
       if (canvas) {
         const ctx = canvas.getContext("2d");
